@@ -53,29 +53,17 @@ function dramaMoviesScore(movies) {
 
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
 function orderByYear(movies) {
-  let years = movies.filter((movie)=>movie.year).map((movie)=>movie.year)
+  
+  const orderedMovies = [...movies]
 
-  //turning year unique:
-  years = years.filter((v, i, a) => a.indexOf(v) === i)
-  years = years.sort((a,b)=>(a-b))
-
-  ordered_movies = []
-  years.forEach(year=>{
-    const yearMovies = movies.filter((movie)=>movie.year===year)
-    const titles = yearMovies.filter((movie)=>movie.title).map((movie)=>movie.title).filter((v, i, a) => a.indexOf(v) === i).sort()
-    
-    //titled movies
-    titles.forEach((title)=>{
-      ordered_movies.push(yearMovies.filter((movie)=>(movie.title===title))[0])
-    })
-    
-    //not titled movies
-    const yearMoviesNotTitled = movies.filter((movie)=>movie.year===year).filter((movie)=>!Object.keys(movie).includes('title'));
-    if (yearMoviesNotTitled){
-      ordered_movies = ordered_movies.concat(yearMoviesNotTitled)
+  orderedMovies.sort((a,b)=>{
+    if(a.year===b.year){
+      return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
     }
+    return a.year - b.year
   })
-  return ordered_movies
+
+  return orderedMovies
 }
 
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
